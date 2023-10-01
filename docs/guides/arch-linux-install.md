@@ -2,7 +2,7 @@
 
 !!! abstract "Read this first"
 
-    The [ArchWiki][archwiki] should always be regarded as the most up to date source of information. This guide serves as nothing but a simplified and hopefully easier to follow guide of the [official installation guide][archwiki-installation_guide]. I or any other contributors to this guide are responsible for what you do with your system. This simplified guide is primarily recommended to be either used as a basic skeleton (I'll try to link to official sources wherever possible) or if you're already familiar with installing Arch Linux yourself and just need a quick refresher.
+    The [ArchWiki][archwiki] should always be regarded as the most up-to-date source of information. This guide serves as nothing but a simplified and hopefully easier to follow version of the [official installation guide][archwiki-installation_guide]. I or any other contributors to this guide are not responsible for what you do with your system. This simplified guide is primarily recommended to be either used as a basic skeleton (I'll try to link to official sources wherever possible) or if you're already familiar with installing Arch Linux yourself and just need a quick refresher.
 
 !!! warning
 
@@ -14,20 +14,20 @@
 
 !!! info
 
-    I recommend you read through the guide at least once before doing anything else.
+    I recommend you read through the whole guide at least once before doing anything else.
 
 
 ## Obtaining an installation medium
 
 I highly recommend that you use [SystemRescue][systemrescue-download] over the official [ArchISO][archlinux-download] as it provides a basic desktop environment which signifficantly simplifies the installation process. This guide will assume that you're using SystemRescue, however you're free to follow along with either.
 
-After downloading either of the two you need to flash them on a storage device, preferably a flash drive. You can use [dd](/software/image-flashing/#dd), but if you're not comfortable with tools where a simple mistake can wipe your data, I'd recommend something like [Balena Etcher](/software/image-flashing/#balena-etcher)
+After downloading either of the two you need to flash them on a storage device, preferably a flash drive. For this you'll need an [image flasher](/software/image-flashing). [Balena Etcher](/software/image-flashing/#balena-etcher) should do just fine for most people.
 
 ## Booting into the installation medium
 
 ??? warning "Installing on the same device?"
 
-    If you're not familiar with the installation process, please make sure you can follow the guide even while often if your device isn't hardwired to the internet. You can open the guide on your phone. Also consider reading this chapter before continuing.
+    If you're not familiar with the installation process, please make sure you can follow the guide even while offline if your device isn't hardwired to the internet. You can open the guide on your phone. Also, consider reading this chapter in its entirety before continuing.
 
 Once you have your flash drive ready, plug it into the target system and power it on. You'll need to get to the boot or firmware menu. What follows are some tips on how to get there.
 
@@ -89,7 +89,7 @@ Assuming a dedicated drive, create a new partition table. In GParted, select the
 
 #### Root
 
-This will be the `/` path on your system. The most popular partition format for storage partitions on Linux is ext4, however you may want to consider other option as well, such as `btrfs`. This guide will assume you're using ext4.
+This will be the `/` path on your system. The most popular partition format for storage partitions on Linux is `ext4`, however you may want to consider other options as well, such as `btrfs`. This guide will assume you're using `ext4`. This shouldn't need to be larger than about 60 GB.
 
 #### Home (optional)
 
@@ -124,7 +124,7 @@ Unless you have another system on your computer that can handle the boot process
 
 ### Mounting partitions
 
-!!! warning "Make sure you've applied all the operations in GRUB first, they do not get applied as you make changes in the GUI automatically."
+!!! warning "Make sure you've applied all the operations in GParted first, they do not get applied as you make changes in the GUI automatically."
 
 The mount command you'll use is `mount /path/to/partition /mount/point`. It is convention to make the root of the system you're working on in `/mnt`. This folder might not exist, use `mkdir -p /mnt` to create it.
 
@@ -142,11 +142,11 @@ mkdir -p /mnt/home
 mount /dev/sda3 /mnt/home
 
 # swap
-swapon /dev/sda3
+swapon /dev/sda4
 ```
 
 1. Mount all the storage partitions to the mount points described in [Adding partitions](#adding-partitions)
-2. Mount the boot partition you've made (if you've made one) to `/boot`
+2. Mount the boot partition you've made (if you've made one) to `/boot` (`/mnt/boot`)
 3. Activate the swap partition you've made with `swapon /path/to/partition`
 
 ??? question "`fuse: failed to access mountpoint /some/path: No such file or directory`"
@@ -159,7 +159,7 @@ swapon /dev/sda3
     
     For sata drives it usually looks like `/dev/sdXY`, for NvME ones it's usually `/dev/nvmeXnYpZ`.
 
-    You may also try to consult `lsblk`.
+    You may also try to consult `lsblk` CLI tool.
 
 ## A new Arch Linux installation
 
@@ -171,27 +171,28 @@ The following sections will help you compile a list of packages you'll want to i
 
 !!! note "Note: You can install these packages later on, but doing it all in one command means, that you can let it install in the background and get a cup of coffee or something in the meantime"
 
-#### Stuff that you'll always want (all)
+#### Stuff that you'll always want (install all)
 
-- `base` - a package group containing all the packages you will always want on an Arch Linux system
+- `base` and `base-devel` - package groups containing all the packages you will always want on an Arch Linux system
 - `man-db` and `man-pages` - a manual for all[^3] your installed packages you can always access with `man`
 - `networkmanager` - handles wired and wireless internet for you, including VPNs and other extra stuff
 
-#### A text editor (at least one)
+#### A text editor (install at least one)
 
 It is essential that you pick at least one editor that you can use in the terminal. Here are my recommendations:
 
 - `vim` -  if you know Vim, you'll want to use it
 - `neovim` - Vim, but supercharged
 - `nano` - I personally hate Nano, but it is probably the most user friendly terminal text editor out there
+- `micro` - Nano, but supercharged
 
-#### Kernel flavours (choose one)
+#### Kernel flavours (install one)
 
 You need to install a kernel as it is the heart of any operating system. Linux itself is a kernel and everything around it are applications that make it into a proper operating system. Here are some kernel recommendations (I always go with `linux-zen`):
 
 - `linux` - a regular Linux kernel, I generally avoid this one, but it is the most neutral choice
-- `linux-lts` - a long-term support release of the kernel, meaning you can stay on the same version for a while with only smaller bugfixes being applied
-- `linux-zen` - the best kernel flavour for an everyday system, provides great performance for desktops and laptops
+- `linux-lts` - a long-term support release of the kernel, meaning you can stay on the same version for a while with only smaller bugfixes being applied, most useful for servers
+- `linux-zen` - (arguably) the best kernel flavour for an everyday system, provides great performance for desktops and laptops
 - `linux-hardened` - Linux kernel with extra security patches applied
 
 
