@@ -7,9 +7,8 @@ theme:
   name: material
   font: false
   icon:
-    repo:
-      fontawesome/brands/git-alt
-  palette: 
+    repo: fontawesome/brands/git-alt
+  palette:
     scheme: slate
     primary: pink
     accent: pink
@@ -24,6 +23,7 @@ theme:
     - navigation.footer
     - content.action.edit
     - content.tabs.link
+    - content.code.copy
   plugins:
     - search
     - social
