@@ -1,0 +1,52 @@
+site_name: Octelly's tech tips
+site_url: https://tips.octelly.lol
+repo_name: tips.octelly.lol
+repo_url: https://github.com/Octelly/tips.octelly.lol
+edit_uri: edit/main/docs/
+theme:
+  name: material
+  font: false
+  icon:
+    repo:
+      fontawesome/brands/git-alt
+  palette: 
+    scheme: slate
+    primary: pink
+    accent: pink
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.expand
+    - toc.follow
+    - toc.integrate
+    - navigation.top
+    - search.suggest
+    - navigation.footer
+    - content.action.edit
+  plugins:
+    - search
+    - social
+    - git-revision-date-localized:
+      enable_creation_date: true
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Octelly
+      name: Octelly on GitHub
+markdown_extensions:
+  - abbr
+  - pymdownx.snippets:
+      auto_append:
+        - includes/abbreviations.md
+  - admonition
+  - footnotes
+  - pymdownx.betterem
+  - pymdownx.details
+  - pymdownx.highlight:
+      linenums: true
+  - pymdownx.superfences
+  - pymdownx.keys
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
