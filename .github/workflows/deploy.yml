@@ -14,22 +14,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
-
-      - uses: actions/cache@v3
-        with:
-          key: mkdocs-material-${{ env.cache_id }}
-          path: .cache
-          restore-keys: |
-            mkdocs-material-
-
       - name: Build the site
         run: nix develop --command mkdocs build
 
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v1
         with:
-          path: 'site'
+          path: 'site/'
 
   deploy:
     needs: build_site
